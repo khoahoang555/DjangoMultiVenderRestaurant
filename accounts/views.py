@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib import messages
 
 from .forms import UserForm
 from .models import User
@@ -9,7 +10,6 @@ from .models import User
 
 def registerUser(request):
     if (request.method == 'POST'):
-        print(request.POST)
         form = UserForm(request.POST)
         if form.is_valid():
             # Create the user using the form
@@ -28,6 +28,7 @@ def registerUser(request):
             user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password)
             user.role = User.CUSTOMER
             user.save()
+            messages.success(request, 'Your account has been registered successfully!')
             print('User is created')
 
             return redirect('registerUser')
