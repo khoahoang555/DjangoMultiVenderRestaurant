@@ -8,6 +8,7 @@ from django.db.models import Prefetch, Q
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
+from orders.forms import OrderForm
 from .context_processors import get_cart_counter, get_cart_amounts
 from .models import Cart
 from menu.models import Category, FoodItem
@@ -160,3 +161,11 @@ def search(request):
         }
 
         return render(request, 'marketplace/listings.html', context)
+
+
+def checkout(request):
+    form = OrderForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'marketplace/checkout.html', context)
